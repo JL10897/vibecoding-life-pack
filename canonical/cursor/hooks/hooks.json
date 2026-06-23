@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionEnd": [
+      {
+        "command": "hooks/vibe-save-session-end.sh",
+        "timeout": 30,
+        "failClosed": false
+      }
+    ]
+  }
+}

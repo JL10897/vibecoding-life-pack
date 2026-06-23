@@ -1,0 +1,5 @@
+.life-pack/logs/
+.life-pack/backups/
+.DS_Store
+*.tmp
+*.swp

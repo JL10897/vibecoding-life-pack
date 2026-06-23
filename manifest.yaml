@@ -1,0 +1,84 @@
+version: 1
+
+pack:
+  name: vibecoding-life-pack
+  owner: yiranqu
+  description: Personal vibecoding life pack for Cursor, Claude Code, and Codex skills.
+
+agents:
+  cursor:
+    canonical_path: canonical/cursor
+    install_targets:
+      skills: ~/.cursor/skills
+      rules: ~/.cursor/rules
+      hooks_dir: ~/.cursor/hooks
+      hooks_json: ~/.cursor/hooks.json
+  claude-code:
+    canonical_path: canonical/claude-code
+    install_targets:
+      skills: ~/.claude/skills
+      commands: ~/.claude/commands
+      settings: ~/.claude/settings
+  codex:
+    canonical_path: canonical/codex
+    install_targets:
+      skills: ~/.codex/skills
+      prompts: ~/.codex/prompts
+      settings: ~/.codex/settings
+
+shared:
+  canonical_path: canonical/shared
+  areas:
+    - principles
+    - planning
+    - debugging
+    - review
+
+skills:
+  - id: revise-plans
+    agent: cursor
+    path: canonical/cursor/skills/revise-plans
+    status: active
+    source: personal
+    description: Revise existing plan documents while preserving logical consistency.
+  - id: yiranqu-data-report
+    agent: claude-code
+    path: canonical/claude-code/skills/yiranqu-data-report
+    status: active
+    source: personal
+    description: yiranqu data analysis HTML report design system using Morandi tones.
+  - id: enable-claude-code-bypass-root
+    agent: claude-code
+    path: canonical/claude-code/skills/enable-claude-code-bypass-root
+    status: active
+    source: personal
+    description: Enable Claude Code bypassPermissions mode under root on Linux.
+  - id: revise-plans
+    agent: codex
+    path: canonical/codex/skills/revise-plans
+    status: active
+    source: personal
+    description: Revise existing plan documents while preserving logical consistency.
+
+external_packs:
+  - id: superpowers
+    status: referenced
+    source: external
+    description: Core skills library for TDD, debugging, collaboration patterns, and development workflows.
+    install_note: Record source and install method instead of vendoring by default.
+
+devices:
+  strategy: canonical-plus-device-overrides
+  override_root: devices
+  rule: Keep overrides small. Promote reusable changes back into canonical.
+
+autosave:
+  enabled: true
+  commit_scope: all
+  push: false
+  entrypoint: bin/vibe-save
+  default_sources:
+    - cursor-sessionEnd
+    - claude-wrapper
+    - codex-wrapper
+    - manual

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+DEVICE_ID="${VIBE_DEVICE_ID:-$(hostname | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9._-' '-')}"
+
+cd "$REPO_ROOT"
+
+echo "Repository: $REPO_ROOT"
+echo "Device: $DEVICE_ID"
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "Git: not initialized"
+else
+  GIT_TOPLEVEL="$(git rev-parse --show-toplevel)"
+  if [[ "$GIT_TOPLEVEL" != "$REPO_ROOT" ]]; then
+    echo "Git: not initialized for this life pack"
+    echo "Parent git repository: $GIT_TOPLEVEL"
+  else
+    echo "Git: initialized"
+    echo "Branch: $(git branch --show-current 2>/dev/null || echo unknown)"
+    echo "Last commit: $(git log -1 --oneline 2>/dev/null || echo none)"
+
+    if [[ -z "$(git status --porcelain)" ]]; then
+      echo "Working tree: clean"
+    else
+      echo "Working tree: dirty"
+      git status --short
+    fi
+  fi
+fi
+
+if [[ -d "$REPO_ROOT/devices/$DEVICE_ID" ]]; then
+  echo "Device overrides: devices/$DEVICE_ID"
+else
+  echo "Device overrides: none"
+fi

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -u
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+CLAUDE_BIN="${CLAUDE_BIN:-claude}"
+
+"$CLAUDE_BIN" "$@"
+status=$?
+
+"$REPO_ROOT/bin/vibe-save" --source claude-wrapper || true
+exit "$status"

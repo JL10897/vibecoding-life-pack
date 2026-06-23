@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "vibe-merge-check: python3 is required for validation." >&2
+  exit 1
+fi
+
+python3 - "$REPO_ROOT" <<'PY'
+import os
+import re
+import stat
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1]).resolve()
+manifest = root / "manifest.yaml"
+errors = []
+
+def clean_value(value: str) -> str:
+    value = value.strip().strip("'").strip('"')
+    return value.split(" #", 1)[0].strip()
+
+if not manifest.exists():
+    errors.append("missing manifest.yaml")
+else:
+    declared_paths = []
+    path_re = re.compile(r"^\s*(canonical_path|path|entrypoint|override_root):\s*(.+?)\s*$")
+    for line_no, line in enumerate(manifest.read_text(encoding="utf-8").splitlines(), start=1):
+        match = path_re.match(line)
+        if not match:
+            continue
+        value = clean_value(match.group(2))
+        if not value or value.startswith("~") or value.startswith("/"):
+            continue
+        declared_paths.append((line_no, value))
+
+    for line_no, rel_path in declared_paths:
+        target = root / rel_path
+        if not target.exists():
+            errors.append(f"manifest.yaml:{line_no}: missing path {rel_path}")
+
+cursor_skills = root / "canonical" / "cursor" / "skills"
+if cursor_skills.exists():
+    for child in cursor_skills.iterdir():
+        if child.is_dir() and not (child / "SKILL.md").exists():
+            errors.append(f"cursor skill missing SKILL.md: {child.relative_to(root)}")
+
+for path in root.rglob("*"):
+    if path.is_symlink() and not path.exists():
+        errors.append(f"broken symlink: {path.relative_to(root)}")
+
+required_executables = [
+    "bin/vibe-save",
+    "bin/vibe-status",
+    "bin/vibe-merge-check",
+    "bin/claude-with-vibe-save",
+    "bin/codex-with-vibe-save",
+    "install.sh",
+    "sync.sh",
+    "canonical/cursor/hooks/vibe-save-session-end.sh",
+]
+
+for rel_path in required_executables:
+    target = root / rel_path
+    if not target.exists():
+        errors.append(f"missing executable: {rel_path}")
+        continue
+    mode = target.stat().st_mode
+    if not (mode & stat.S_IXUSR):
+        errors.append(f"not executable: {rel_path}")
+
+if errors:
+    print("vibe-merge-check: failed")
+    for error in errors:
+        print(f"- {error}")
+    sys.exit(1)
+
+print("vibe-merge-check: ok")
+PY

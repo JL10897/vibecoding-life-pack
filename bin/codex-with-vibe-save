@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -u
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+CODEX_BIN="${CODEX_BIN:-codex}"
+
+"$CODEX_BIN" "$@"
+status=$?
+
+"$REPO_ROOT/bin/vibe-save" --source codex-wrapper || true
+exit "$status"

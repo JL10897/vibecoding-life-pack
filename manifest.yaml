@@ -54,12 +54,12 @@ skills:
     status: active
     source: personal
     description: Revise existing plan documents while preserving logical consistency.
-  - id: yiranqu-data-report
+  - id: visualization
     agent: claude-code
-    path: canonical/claude-code/skills/yiranqu-data-report
+    path: canonical/claude-code/skills/visualization
     status: active
     source: personal
-    description: yiranqu data analysis HTML report design system using Morandi tones.
+    description: Data analysis HTML report visualization design system (Morandi tones).
   - id: enable-claude-code-bypass-root
     agent: claude-code
     path: canonical/claude-code/skills/enable-claude-code-bypass-root

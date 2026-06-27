@@ -1,13 +1,13 @@
 ---
-name: yiranqu-data-report
-description: "yiranqu's data analysis HTML report design system (Morandi tones). Use this skill when building data analysis dashboards, reports, or interactive HTML pages. Defines the complete visual language: color palette (Morandi tones), typography hierarchy, card/section/chart layout, tag/badge system, parent-child content hierarchy with collapsible details, Chart.js integration patterns, and interactive simulator design. Triggers on: creating HTML reports, data dashboards, analysis pages, visualization layouts."
-description_zh: "yiranqu 数据分析报告设计系统"
-description_en: "yiranqu data report style guide"
+name: visualization
+description: "Data analysis HTML report design system (Morandi tones). Use this skill when building data analysis dashboards, reports, or interactive HTML pages. Defines the complete visual language: color palette (Morandi tones), typography hierarchy, card/section/chart layout, tag/badge system, parent-child content hierarchy with collapsible details, Chart.js integration patterns, interactive simulator design, and long-report information architecture (sidebar TOC, developer-mode toggle, structured summary). Triggers on: creating HTML reports, data dashboards, analysis pages, visualization layouts."
+description_zh: "数据分析 HTML 报告可视化设计系统"
+description_en: "data analysis HTML report visualization style guide"
 disable: false
 agent_created: true
 ---
 
-# yiranqu-data-report — 数据分析HTML报告设计系统
+# visualization — 数据分析 HTML 报告可视化设计系统
 
 一套完整的数据分析可视化HTML报告设计规范，适用于游戏数据分析、业务指标看板、实验报告等场景。
 
@@ -375,6 +375,44 @@ walk(target); open_box(pos); loot_box() ×2
 - 单个HTML文件 = 完整可离线运行的报告
 - 文件大小控制在500KB以内
 
+## 10. 长报告的信息架构与读者体验（沉淀自实际交互）
+
+当报告章节多（≥5 个 section）、或同时面向"业务读者"与"开发者"时，单列堆叠会 overwhelming。以下是在实际归因报告中反复验证有效的做法：
+
+### 10.1 侧边目录（TOC）+ 锚点跳转
+- 长报告（6 节以上）在左侧加 `position:fixed` 目录，列出所有一级章节 + 关键子节（4.x 用 `class="sub"` 缩进）。
+- 每个章节 `<div class="section" id="sN">`，子节 `<h3 id="sN-M">`；目录 `<a href="#sN">` 点击跳转。
+- 加 `scroll-margin-top` 给 section，避免跳转后被顶栏遮挡。
+- 用 IntersectionObserver / scroll 监听给当前章节目录项加 `.cur` 高亮。
+- 窄屏（<1180px）隐藏侧边目录，body 取消左侧 padding，保持单栏可读。
+
+### 10.2 开发者模式开关（避免信息过载）
+- 把**技术性/口径性指标**（如"回复开头 N 字唯一率"、唯一率分母口径等技术细节）收进默认关闭的开关，业务读者默认看不到。
+- 实现：顶部一个 pill 形开关 `<label class="dev-switch">`，勾选后 `body.classList.add('dev-on')`；CSS `.dev-only{display:none} body.dev-on .dev-only{display:block}`，卡片用 `.dev-card{display:none} body.dev-on .dev-card{display:flex}`。
+- 开关样式：30×16 圆角轨道 + 12px 圆点，开启时轨道变主色、圆点右移。
+
+### 10.3 多要点 note 拆成列表
+- 一段 note 里若含 ≥3 个并列要点，**不要挤成一段**：用 `<span class="lead">引导句</span>` + `<ul><li>` 分点。
+- 例：口径说明、双峰结论、回归模式两个 nuance，都拆成"引导句 + 列表 + 结句"。
+- CSS：`.note ul{margin:8px 0 2px 18px} .note li{margin:4px 0;line-height:1.7} .note .lead{display:block;margin-bottom:4px}`。
+
+### 10.4 分类统计表（模板/套路按类别）
+- 玩家固定 cue、子话题等"套路"分析，先给**按类别的统计表**（类别 + 样本数 + 占比 + 代表套路），再给**逐字模板明细表**（具体话术 + 条数 + 类别）。
+- 类别命名贴合读者认知（如"回忆关系 / 记忆铐问 / 身份铐问 / 情感倾诉"），不要用内部代号。
+- 注明口径（如"扫全部消息，各类可重叠"）。
+
+### 10.5 面向读者的去内部化
+- 给上级/业务读者的报告**删掉**：修订记录（"旧口径/曾误判/现修订"）、"补"节、只有内部懂的口径黑话、对话腔（"你问的/你举的/用户确认"）。
+- 术语中文化：last_user→当前轮玩家消息，match/weak_match→匹配/弱匹配，英文标签换中文类型名。
+- 统计口径集中放在第一节一条 note 里，干净说明。
+
+### 10.6 结论表 + 编号建议
+- 结论节用一张"问题 + 统计证据 + 主要来源"三列表汇总所有发现，每行挂数字。
+- 行动建议用编号 ①②③ 列在 `.fix` 块里，每条带影响量。
+
+### 10.7 代表样本折叠
+- 每个结论配 `<details>` 折叠的代表样本，按子类用 `<h4>` 分组，`meta` 行标注样本号 + 标签，`la` 显示回复原文。
+
 ## Pitfalls
 
 - Badge不加括号、不加emoji，格式固定为 `数据源 · 日期 · 数量`
@@ -395,3 +433,8 @@ walk(target); open_box(pos); loot_box() ×2
 - [ ] 折叠交互正常（details/summary）
 - [ ] 颜色语义一致性检查
 - [ ] 核心发现用note行内格式而非框
+- [ ] 长报告（≥6节）有侧边目录且可点击跳转、滚动高亮
+- [ ] 技术性/口径性指标已收进"开发者模式"开关，默认关闭
+- [ ] 多要点note已拆成列表，未堆成一段
+- [ ] 套路/模板分析有"按类别统计表 + 逐字明细表"两层
+- [ ] 面向读者的版本已删除修订记录/补节/内部黑话/对话腔

@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Auto-absorb skills authored directly in a platform consumer dir back into the
+# canonical shared skills location, then replace the original with a symlink.
+#
+# This closes the loop "created from any platform -> lands in one common place":
+# an agent (Cursor / Claude Code / Codex) can create a skill under its own
+# ~/.<agent>/skills/<id>/ dir, and the next vibe-save will move it into
+# canonical/shared/skills/<id>/ and symlink it back, so all three platforms can
+# consume it after install.sh fans it out.
+#
+# Idempotent: entries already symlinked into canonical are left alone. Entries
+# whose canonical target already exists are skipped (first one wins) rather than
+# clobbered. Cursor's self-managed ~/.cursor/skills-cursor dir is intentionally
+# NOT touched.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+SHARED_SKILLS_DIR="$REPO_ROOT/canonical/shared/skills"
+
+expand_target() {
+  local path="$1"
+  echo "${path/#\~/$HOME}"
+}
+
+CONSUMER_DIRS=(
+  "$(expand_target "~/.cursor/skills")"
+  "$(expand_target "~/.claude/skills")"
+  "$(expand_target "~/.codex/skills")"
+)
+
+mkdir -p "$SHARED_SKILLS_DIR"
+
+absorbed=0
+skipped=0
+
+for consumer_dir in "${CONSUMER_DIRS[@]}"; do
+  [[ -d "$consumer_dir" ]] || continue
+
+  for entry in "$consumer_dir"/* "$consumer_dir"/.[!.]* "$consumer_dir"/..?*; do
+    [[ -e "$entry" ]] || continue
+
+    name="$(basename "$entry")"
+    [[ "$name" == .* ]] && continue
+
+    # Leave symlinks alone (already linked into canonical, or external link).
+    if [[ -L "$entry" ]]; then
+      continue
+    fi
+
+    dest="$SHARED_SKILLS_DIR/$name"
+    if [[ -e "$dest" ]]; then
+      echo "vibe-absorb-skills: skip '$entry' -> '$dest' already exists in canonical/shared/skills"
+      skipped=$((skipped + 1))
+      continue
+    fi
+
+    mv "$entry" "$dest"
+    ln -s "$dest" "$entry"
+    echo "vibe-absorb-skills: absorbed $entry -> $dest"
+    absorbed=$((absorbed + 1))
+  done
+done
+
+echo "vibe-absorb-skills: done (absorbed=$absorbed skipped=$skipped)"

@@ -1,0 +1,53 @@
+---
+description: How to author vibecoding-life-pack skills so they are shared across Cursor, Claude Code, and Codex.
+globs:
+alwaysApply: false
+---
+
+# Vibecoding Life Pack — Skill Authoring
+
+Skills for Cursor, Claude Code, and Codex are kept in the `vibecoding-life-pack`
+git repository so they travel across platforms and devices. The repository is
+the source of truth; the per-agent `~/.<agent>/skills/` directories are
+installation targets (symlinks back to the repo).
+
+## Where to author a skill
+
+- **Cross-platform skill** (works on all three agents): author it at
+  `canonical/shared/skills/<id>/SKILL.md` inside the `vibecoding-life-pack` repo.
+  `install.sh` fans it out to `~/.cursor/skills`, `~/.claude/skills`, and
+  `~/.codex/skills` automatically.
+- **Platform-only skill**: author it under
+  `canonical/<platform>/skills/<id>/SKILL.md` (e.g. `canonical/claude-code/skills/<id>/`).
+  It only lands on that one platform.
+
+After creating or changing a skill in the repo, run `./install.sh` from the repo
+root so the consumer-dir symlinks are (re)created.
+
+## If you created a skill directly in a consumer dir
+
+If you (or an agent tool) wrote a skill straight into `~/.cursor/skills/<id>/`,
+`~/.claude/skills/<id>/`, or `~/.codex/skills/<id>/` as real files (not
+symlinks), do not worry: the life pack's `vibe-save` (which runs on Cursor
+session end and from `sync.sh`) calls `bin/vibe-absorb-skills`, which moves that
+skill into `canonical/shared/skills/<id>/` and replaces the original with a
+symlink. So it still becomes shared across all platforms on the next save.
+
+To absorb immediately without waiting for a save, run:
+
+```bash
+bin/vibe-absorb-skills
+```
+
+## New device / after git pull
+
+After pulling the repo on a device (or running `./sync.sh`), shared skills are
+re-linked into all three consumer dirs automatically by `sync.sh`. If you
+ cloned fresh, run `./install.sh` once.
+
+## Skill file format
+
+Use a single `SKILL.md` with YAML frontmatter (`name`, `description`) followed
+by markdown. This format is consumed by Cursor, Claude Code, and Codex alike,
+so a shared skill needs only one file unless it truly requires platform-specific
+fields.

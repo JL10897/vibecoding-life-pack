@@ -104,6 +104,29 @@ install_cursor_hooks() {
   done
 }
 
+install_shared_skills() {
+  # Shared skills are authored once under canonical/shared/skills and fanned
+  # out to all three consumer dirs so Cursor, Claude Code, and Codex all see
+  # them. Run before platform-specific installs so a platform copy can override.
+  local shared_skills_dir="$REPO_ROOT/canonical/shared/skills"
+  [[ -d "$shared_skills_dir" ]] || return 0
+
+  local cursor_skills claude_skills codex_skills
+  cursor_skills="$(expand_target "~/.cursor/skills")"
+  claude_skills="$(expand_target "~/.claude/skills")"
+  codex_skills="$(expand_target "~/.codex/skills")"
+
+  local source_path name
+  for source_path in "$shared_skills_dir"/* "$shared_skills_dir"/.[!.]* "$shared_skills_dir"/..?*; do
+    [[ -e "$source_path" ]] || continue
+    name="$(basename "$source_path")"
+    [[ "$name" == .* ]] && continue
+    install_one "$source_path" "$cursor_skills/$name"
+    install_one "$source_path" "$claude_skills/$name"
+    install_one "$source_path" "$codex_skills/$name"
+  done
+}
+
 install_agent_tree() {
   local root="$1"
 
@@ -121,6 +144,7 @@ install_agent_tree() {
 }
 
 echo "install.sh: installing canonical content in $MODE mode"
+install_shared_skills
 install_agent_tree "$REPO_ROOT/canonical"
 
 if [[ -d "$REPO_ROOT/devices/$DEVICE_ID" ]]; then

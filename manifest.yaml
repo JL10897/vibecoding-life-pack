@@ -33,11 +33,24 @@ shared:
     - planning
     - debugging
     - review
+  skills_path: canonical/shared/skills
+  skills:
+    - id: revise-plans
+      status: active
+      source: personal
+      description: Revise existing plan documents while preserving logical consistency.
+  fanout_targets:
+    - ~/.cursor/skills
+    - ~/.claude/skills
+    - ~/.codex/skills
+  absorb:
+    entrypoint: bin/vibe-absorb-skills
+    rule: Move non-symlink skill entries from consumer dirs into canonical/shared/skills and replace with symlinks.
 
 skills:
   - id: revise-plans
-    agent: cursor
-    path: canonical/cursor/skills/revise-plans
+    agent: shared
+    path: canonical/shared/skills/revise-plans
     status: active
     source: personal
     description: Revise existing plan documents while preserving logical consistency.
@@ -53,12 +66,6 @@ skills:
     status: active
     source: personal
     description: Enable Claude Code bypassPermissions mode under root on Linux.
-  - id: revise-plans
-    agent: codex
-    path: canonical/codex/skills/revise-plans
-    status: active
-    source: personal
-    description: Revise existing plan documents while preserving logical consistency.
 
 external_packs:
   - id: superpowers

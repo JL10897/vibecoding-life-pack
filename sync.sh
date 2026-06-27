@@ -17,6 +17,12 @@ else
   echo "sync.sh: life pack is not initialized as a git repository; skipping pull."
 fi
 
+# Re-link canonical content (including any new shared skills pulled from other
+# devices) into the three consumer dirs so they appear without a manual install.
+if [[ -f "$SCRIPT_DIR/install.sh" ]]; then
+  "$SCRIPT_DIR/install.sh" >/dev/null
+fi
+
 bin/vibe-merge-check
 bin/vibe-save --source sync-after-pull
 

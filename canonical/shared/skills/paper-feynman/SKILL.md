@@ -9,6 +9,8 @@ description: |
 
   与 paper-read 的区别：paper-read 是模板驱动的笔记生成（自动产出结构化笔记），
   费曼阅读是对话驱动的深度理解（用户提问 → 精确回答 → 最后凝练成笔记）。
+  所以快速生成结构化笔记用 paper-read，深度精读用本 skill；触发词不重叠
+  （paper-read 收 "读论文/读一下/笔记"，本 skill 收 "精读/费曼/深度阅读"）。
 context: fork
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
 ---

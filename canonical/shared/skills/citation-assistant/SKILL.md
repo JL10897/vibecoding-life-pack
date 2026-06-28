@@ -1,6 +1,6 @@
 ---
 name: citation-assistant
-description: Use when the user needs academic citations, BibTeX, venue/author quality checks, or help filling [CITE] placeholders. Triggers include 文献引用、找引用、citation、bib、参考文献、替换不规范引用、查询作者 H-index、判断期刊/会议质量。
+description: Use when the user needs academic citations, BibTeX, venue/author quality checks, help filling [CITE] placeholders, or managing a LaTeX .bib file (add/update references, fix citation format, dedupe). Triggers include 文献引用、找引用、citation、bib、参考文献、替换不规范引用、查询作者 H-index、判断期刊/会议质量、add to bibliography、更新bib、add citation、update references。
 ---
 
 # Citation Assistant 学术文献引用助手
@@ -154,6 +154,118 @@ bash "${CLAUDE_SKILL_ROOT}/scripts/doi2bibtex.sh" "10.1038/s41591-020-0792-9"
 ```
 
 **建议用法**：将 `[CITE]` 替换为 `~\cite{Wu2020}`
+```
+
+---
+
+## 📚 .bib 文件管理（BibTeX 增删改）
+
+当用户要往 `.bib` 文件里增/改条目、修引用格式、去重时使用。触发：`add to bibliography` / `更新bib` / `add citation` / `update references` / "修引用格式"。
+
+### 流程
+
+1. 确定来源：Zotero item key、DOI（用 `scripts/doi2bibtex.sh` 转 BibTeX）、或手写 BibTeX
+2. 在目标 `.bib` 文件里查重（见下方查重规则）
+3. 按约定生成 citation key
+4. 校验 BibTeX 语法（见下方校验清单）
+5. 追加到 `.bib` 文件
+6. 返回 citation key 供文稿使用
+
+### 输入
+
+- **来源**：Zotero item key / DOI / 手写 BibTeX
+- **目标 .bib 文件**：路径
+- **citation key 偏好**（可选）：自定义 key 格式
+
+### Citation Key 约定
+
+格式：`{FirstAuthorLastName}{SecondAuthorLastName}{Year}`
+
+| Authors | Example Key |
+|---------|-------------|
+| Single author | `Smith2024` |
+| Two authors | `SmithJones2024` |
+| Three+ authors | `SmithEtAl2024` |
+
+冲突时追加字母：`Smith2024a`, `Smith2024b`
+
+### 查重（写入前必做）
+
+在已有 `.bib` 中搜索：
+1. **同 DOI** — 精确命中 → 跳过并提示
+2. **同标题** — 模糊匹配 (>90%) → 警告用户
+3. **同 author+year+venue** — 疑似重复 → 警告用户
+
+### 必填字段
+
+| 类型 | 必填字段 |
+|------|----------|
+| `@article` | author, title, journal, year |
+| `@inproceedings` | author, title, booktitle, year |
+| `@book` | author/editor, title, publisher, year |
+| `@misc`（arXiv） | author, title, year, eprint, archiveprefix |
+
+### 语法校验清单
+
+- [ ] entry 类型合法（@article, @inproceedings 等）
+- [ ] 必填字段齐全
+- [ ] 字段内无未转义特殊字符
+- [ ] 大括号配对
+- [ ] year 为数字
+- [ ] pages 格式正确（如 `123--145`）
+
+### 常见自动修正
+
+- `pages = {123-145}` → `pages = {123--145}`
+- 转义特殊字符：`&` → `\&`
+- 规范作者格式：`Last, First and Last, First`
+- 去掉字段尾逗号
+
+### 从 Zotero 取 BibTeX
+
+```python
+# Get BibTeX from Zotero item
+zotero_get_item_metadata(item_key="ABC123", format="bibtex")
+```
+
+### 输出格式
+
+```markdown
+## Added Entry
+
+```bibtex
+@article{SmithJones2024,
+  author = {Smith, John and Jones, Jane},
+  title = {A Novel Approach to Something Important},
+  journal = {Journal of Important Research},
+  year = {2024},
+  doi = {10.1234/example.2024}
+}
+```
+
+## Citation Key
+`SmithJones2024`
+
+## Usage in LaTeX
+```latex
+\cite{SmithJones2024}
+```
+
+## Validation
+- [x] BibTeX syntax valid
+- [x] No duplicate entry found
+- [x] Required fields present
+```
+
+### 校验失败
+
+```markdown
+## Validation Error
+
+**Issue**: Missing required field 'journal' for @article
+**Entry**: SmithJones2024
+
+**Suggested Fix**: Add journal field or change to @misc for preprints
 ```
 
 ---

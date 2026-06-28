@@ -72,12 +72,6 @@ skills:
     status: active
     source: personal
     description: "Revise abstract to meet top AI/NLP conference standards (NeurIPS, ICLR, ACL). Use when: (1) ..."
-  - id: bib-update
-    agent: shared
-    path: canonical/shared/skills/bib-update
-    status: active
-    source: personal
-    description: "Add or update references in .bib file with proper BibTeX formatting. Use when: (1) user says..."
   - id: calibrate-one-two-word
     agent: shared
     path: canonical/shared/skills/calibrate-one-two-word
@@ -95,31 +89,13 @@ skills:
     path: canonical/shared/skills/citation-assistant
     status: active
     source: personal
-    description: "Use when the user needs academic citations, BibTeX, venue/author quality checks, or help fil..."
-  - id: daily-papers-fetch
-    agent: shared
-    path: canonical/shared/skills/daily-papers-fetch
-    status: active
-    source: personal
-    description: "论文抓取（3 步流水线的第 1 步）。抓取 arXiv + HuggingFace 最新论文，打分筛选，富化信息， 输出到 /tmp/daily_papers_enriched.jso..."
-  - id: daily-papers-notes
-    agent: shared
-    path: canonical/shared/skills/daily-papers-notes
-    status: active
-    source: personal
-    description: "论文笔记生成（3 步流水线的第 3 步）。补充概念库，为推荐论文生成完整笔记， 链接回填到推荐文件；目录页默认自动刷新，git 自动化默认关闭。 触发词：\"批量笔记\"、\"跑一下论文笔记\""
-  - id: daily-papers-review
-    agent: shared
-    path: canonical/shared/skills/daily-papers-review
-    status: active
-    source: personal
-    description: "论文点评（3 步流水线的第 2 步）。读取富化后的论文数据，扫描笔记库，生成有态度的推荐点评， 保存推荐文件到 Obsidian，更新 history；git 自动化默认关闭。 触发词..."
+    description: "学术文献引用助手：找引用、BibTeX 生成、.bib 增删改查重、venue/作者质量(H-index)、填 [CITE] 占位。触发：文献引用/找引用/citation/bib/参考文献/add to bibliography/更新bib。"
   - id: daily-papers
     agent: shared
     path: canonical/shared/skills/daily-papers
     status: active
     source: personal
-    description: "每日论文推荐的一句话总入口。用户说“今日论文推荐”“过去3天论文推荐”“过去一周论文推荐” “最近3天论文”“看看这周有啥论文”时使用。 内部会自动串联论文抓取、推荐生成、重点论文笔记..."
+    description: "每日论文推荐一句话总入口，内部自动串联抓取→点评→笔记三步流水线。全流程触发：今日论文推荐/过去3天论文/过去一周论文/看看这周有啥论文；单步触发：论文抓取/论文点评/批量笔记。"
   - id: doc-coauthoring
     agent: shared
     path: canonical/shared/skills/doc-coauthoring

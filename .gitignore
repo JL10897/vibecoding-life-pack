@@ -13,3 +13,6 @@
 **/browser_state/
 # Personal skill config; ship the .example.json instead.
 **/user-config.json
+# Browser automation runtime cruft.
+**/.playwright-mcp/
+**/.claude/settings.local.json

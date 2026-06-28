@@ -14,7 +14,7 @@ description: |
 
 针对特定研究领域，批量检索 arXiv 论文，打分筛选后让用户挑选，选中的导入 Zotero 并自动打标签归类。
 
-**本 skill 的终点是 Zotero 导入 + 打标签**。如需对导入的论文做文献综述，使用 `/literature-review`。
+**本 skill 的终点是 Zotero 导入 + 打标签**。如需对导入的论文做文献综述，使用 `/paper-survey`。
 
 ## Step 0: 读取共享配置
 
@@ -119,7 +119,7 @@ conn.commit(); conn.close()
 - 共检索 N 篇，用户选中 M 篇
 - Zotero 导入成功 X 篇
 - 标签分布汇总
-- 提示用户可使用 `/literature-review` 对导入的论文做综述
+- 提示用户可使用 `/paper-survey` 对导入的论文做综述
 
 ## 关键经验教训
 

@@ -1,0 +1,14 @@
+[    1807ms] [ERROR] Hydration completed but contains mismatches. @ https://fe-static.xhscdn.com/formula-static/xhs-pc-web/public/resource/js/library-vue.e91ead26.js:0
+[    2326ms] [ERROR] TypeError: i is not a function
+    at https://www.xiaohongshu.com/explore:1:4567 @ https://www.xiaohongshu.com/explore:0
+[    2955ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2955ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:9222/json/version:0
+[    2955ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:54345/:0
+[    2956ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2956ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2956ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2956ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2956ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2956ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    2956ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[   29245ms] [WARNING] Tribute was already bound to P @ https://fe-static.xhscdn.com/formula-static/xhs-pc-web/public/resource/js/async/6399.1ac57d49.js:0

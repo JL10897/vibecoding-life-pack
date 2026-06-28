@@ -1,0 +1,12 @@
+[     962ms] [ERROR] TypeError: i is not a function
+    at https://www.xiaohongshu.com/search_result/?keyword=AI%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB&source=web_explore_feed:1:4567 @ https://www.xiaohongshu.com/search_result/?keyword=AI%E8%AE%BA%E6%96%87%E5%88%86%E4%BA%AB&source=web_explore_feed:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:9222/json/version:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:54345/:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0
+[    1926ms] [ERROR] Failed to load resource: net::ERR_FAILED @ chrome-extension://invalid/:0

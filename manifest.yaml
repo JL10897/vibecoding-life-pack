@@ -53,20 +53,187 @@ skills:
     path: canonical/shared/skills/revise-plans
     status: active
     source: personal
-    description: Revise existing plan documents while preserving logical consistency.
+    description: "Revise existing plan documents while preserving logical consistency."
   - id: visualization
     agent: claude-code
     path: canonical/claude-code/skills/visualization
     status: active
     source: personal
-    description: Data analysis HTML report visualization design system (Morandi tones).
+    description: "Data analysis HTML report visualization design system (Morandi tones)."
   - id: enable-claude-code-bypass-root
     agent: claude-code
     path: canonical/claude-code/skills/enable-claude-code-bypass-root
     status: active
     source: personal
-    description: Enable Claude Code bypassPermissions mode under root on Linux.
-
+    description: "Enable Claude Code bypassPermissions mode under root on Linux."
+  - id: abstract-revise
+    agent: shared
+    path: canonical/shared/skills/abstract-revise
+    status: active
+    source: personal
+    description: "Revise abstract to meet top AI/NLP conference standards (NeurIPS, ICLR, ACL). Use when: (1) ..."
+  - id: bib-update
+    agent: shared
+    path: canonical/shared/skills/bib-update
+    status: active
+    source: personal
+    description: "Add or update references in .bib file with proper BibTeX formatting. Use when: (1) user says..."
+  - id: calibrate-one-two-word
+    agent: shared
+    path: canonical/shared/skills/calibrate-one-two-word
+    status: active
+    source: personal
+    description: "Fix typographic widows - paragraphs ending with only 1-2 words on the last line. Use when: (..."
+  - id: canvas-design
+    agent: shared
+    path: canonical/shared/skills/canvas-design
+    status: active
+    source: personal
+    description: "Create beautiful visual art in .png and .pdf documents using design philosophy. You should u..."
+  - id: citation-assistant
+    agent: shared
+    path: canonical/shared/skills/citation-assistant
+    status: active
+    source: personal
+    description: "Use when the user needs academic citations, BibTeX, venue/author quality checks, or help fil..."
+  - id: daily-papers-fetch
+    agent: shared
+    path: canonical/shared/skills/daily-papers-fetch
+    status: active
+    source: personal
+    description: "论文抓取（3 步流水线的第 1 步）。抓取 arXiv + HuggingFace 最新论文，打分筛选，富化信息， 输出到 /tmp/daily_papers_enriched.jso..."
+  - id: daily-papers-notes
+    agent: shared
+    path: canonical/shared/skills/daily-papers-notes
+    status: active
+    source: personal
+    description: "论文笔记生成（3 步流水线的第 3 步）。补充概念库，为推荐论文生成完整笔记， 链接回填到推荐文件；目录页默认自动刷新，git 自动化默认关闭。 触发词：\"批量笔记\"、\"跑一下论文笔记\""
+  - id: daily-papers-review
+    agent: shared
+    path: canonical/shared/skills/daily-papers-review
+    status: active
+    source: personal
+    description: "论文点评（3 步流水线的第 2 步）。读取富化后的论文数据，扫描笔记库，生成有态度的推荐点评， 保存推荐文件到 Obsidian，更新 history；git 自动化默认关闭。 触发词..."
+  - id: daily-papers
+    agent: shared
+    path: canonical/shared/skills/daily-papers
+    status: active
+    source: personal
+    description: "每日论文推荐的一句话总入口。用户说“今日论文推荐”“过去3天论文推荐”“过去一周论文推荐” “最近3天论文”“看看这周有啥论文”时使用。 内部会自动串联论文抓取、推荐生成、重点论文笔记..."
+  - id: doc-coauthoring
+    agent: shared
+    path: canonical/shared/skills/doc-coauthoring
+    status: active
+    source: personal
+    description: "Guide users through a structured workflow for co-authoring documentation. Use when user want..."
+  - id: feynman-reading
+    agent: shared
+    path: canonical/shared/skills/feynman-reading
+    status: active
+    source: personal
+    description: "费曼式论文精读：获取全文+补充材料，交互式深度问答，最后生成笔记。 适用于需要逐段理解、反复追问的深度阅读场景。 触发词：\"费曼阅读\"、\"精读\"、\"精读一下\"、\"feynman rea..."
+  - id: find-sources
+    agent: shared
+    path: canonical/shared/skills/find-sources
+    status: active
+    source: personal
+    description: "Search for academic sources with verified quote extraction to support claims. Use when: (1) ..."
+  - id: generate-mocs
+    agent: shared
+    path: canonical/shared/skills/generate-mocs
+    status: active
+    source: personal
+    description: "重新生成 Obsidian 里的目录页 / 导航页（MOC）。 当用户说“更新索引”“更新论文和概念目录”“刷新论文和概念目录”“刷新MOC”时使用。"
+  - id: humanizer_en
+    agent: shared
+    path: canonical/shared/skills/humanizer_en
+    status: active
+    source: personal
+    description: "Remove signs of AI-generated writing from text. Use when editing or reviewing text to make i..."
+  - id: literature-review
+    agent: shared
+    path: canonical/shared/skills/literature-review
+    status: active
+    source: personal
+    description: "从 Zotero collection 读取论文，按 tag 分类，逐篇生成详细总结，保存到 Obsidian。 每次只处理一个分类（tag），每篇论文根据体裁（survey/benc..."
+  - id: networking-expert
+    agent: shared
+    path: canonical/shared/skills/networking-expert
+    status: active
+    source: personal
+    description: "Research a person's academic profile, career trajectory, and recent work, then compare with ..."
+  - id: paper-reader
+    agent: shared
+    path: canonical/shared/skills/paper-reader
+    status: active
+    source: personal
+    description: "Use when user asks to \"read paper\", \"analyze paper\", \"summarize paper\", \"读论文\", \"分析文献\", \"帮我看一..."
+  - id: paper-review
+    agent: shared
+    path: canonical/shared/skills/paper-review
+    status: active
+    source: personal
+    description: "Perform structured academic paper review with evidence-based critique. Use when: (1) reviewi..."
+  - id: paper-search
+    agent: shared
+    path: canonical/shared/skills/paper-search
+    status: active
+    source: personal
+    description: "针对特定领域批量检索 arXiv 论文，用户筛选后导入 Zotero 并自动打标签。 支持自定义关键词、时间范围（天/月）、arXiv 分类。 触发词：\"论文检索\"、\"paper se..."
+  - id: paragraph-revise
+    agent: shared
+    path: canonical/shared/skills/paragraph-revise
+    status: active
+    source: personal
+    description: "Revise 1-2 paragraphs to address a specific documented issue with full traceability. Use whe..."
+  - id: pptx
+    agent: shared
+    path: canonical/shared/skills/pptx
+    status: active
+    source: personal
+    description: "Presentation creation, editing, and analysis. When Claude needs to work with presentations (..."
+  - id: research-refine
+    agent: shared
+    path: canonical/shared/skills/research-refine
+    status: active
+    source: personal
+    description: "Iteratively refine research problem decomposition and method via Claude + GPT-5.4 peer revie..."
+  - id: revision-plan
+    agent: shared
+    path: canonical/shared/skills/revision-plan
+    status: active
+    source: personal
+    description: "Convert review feedback into prioritized, tiered revision plan. Use when: (1) user has revie..."
+  - id: theme-factory
+    agent: shared
+    path: canonical/shared/skills/theme-factory
+    status: active
+    source: personal
+    description: "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings,..."
+  - id: transcriptapi
+    agent: shared
+    path: canonical/shared/skills/transcriptapi
+    status: active
+    source: personal
+    description: "Full TranscriptAPI toolkit — fetch YouTube transcripts, search videos and channels, browse c..."
+  - id: verify-revisions
+    agent: shared
+    path: canonical/shared/skills/verify-revisions
+    status: active
+    source: personal
+    description: "Cross-check manuscript revisions against original review feedback. Use when: (1) user says \"..."
+  - id: web-design-guidelines
+    agent: shared
+    path: canonical/shared/skills/web-design-guidelines
+    status: active
+    source: personal
+    description: "Review UI code for Web Interface Guidelines compliance. Use when asked to \"review my UI\", \"c..."
+  - id: xhs-post-factory
+    agent: shared
+    path: canonical/shared/skills/xhs-post-factory
+    status: active
+    source: personal
+    description: "小红书多输入内容生成技能。用于将 pdf/md/txt/json 等文件转为结构化的小红书博文。默认生成论文解读（paper-interpretation）类型，输出 xhs-post..."
 external_packs:
   - id: superpowers
     status: referenced
@@ -74,6 +241,36 @@ external_packs:
     description: Core skills library for TDD, debugging, collaboration patterns, and development workflows.
     install_note: Record source and install method instead of vendoring by default.
 
+external_packs:
+  - id: superpowers
+    status: referenced
+    source: external
+    description: "Core skills library for TDD, debugging, collaboration patterns, and development workflows."
+    install_note: "Record source and install method instead of vendoring by default."
+  - id: anthropic-skills
+    status: referenced
+    source: external
+    url: https://github.com/anthropics/skills
+    description: "Anthropic official skills (pdf, docx, xlsx, pptx, mcp-builder, frontend-design, webapp-testing, etc.)."
+    install_note: "Clone separately; not vendored. Customized copies (pptx, canvas-design, theme-factory) live in canonical/shared/skills."
+  - id: vercel-agent-skills
+    status: referenced
+    source: external
+    url: https://github.com/vercel-labs/agent-skills
+    description: "Vercel Labs agent-skills pack."
+    install_note: "Clone separately; not vendored."
+  - id: claude-skill-citation-checker
+    status: referenced
+    source: external
+    url: https://github.com/PHY041/claude-skill-citation-checker
+    description: "Third-party citation-checking skill."
+    install_note: "Clone separately; not vendored. Own citation skill is citation-assistant in canonical/shared/skills."
+  - id: notebooklm-skill
+    status: dropped
+    source: external
+    url: https://github.com/PleasePrompto/notebooklm-skill
+    description: "Third-party NotebookLM skill with browser auth; dropped from the pack."
+    install_note: "Not vendored (carries auth state and .venv). Re-clone upstream if needed."
 devices:
   strategy: canonical-plus-device-overrides
   override_root: devices

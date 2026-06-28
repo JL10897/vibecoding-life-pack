@@ -3,3 +3,13 @@
 .DS_Store
 *.tmp
 *.swp
+
+# Skill runtime cruft and local secrets — never commit these.
+**/__pycache__/
+*.pyc
+**/.venv/
+**/.env
+**/auth_info.json
+**/browser_state/
+# Personal skill config; ship the .example.json instead.
+**/user-config.json

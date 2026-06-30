@@ -55,8 +55,8 @@ skills:
     source: personal
     description: "Revise existing plan documents while preserving logical consistency."
   - id: visual-report
-    agent: claude-code
-    path: canonical/claude-code/skills/visual-report
+    agent: shared
+    path: canonical/shared/skills/visual-report
     status: active
     source: personal
     description: "Data analysis HTML report visualization design system (Morandi tones)."

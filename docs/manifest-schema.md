@@ -76,14 +76,14 @@ Allowed `source` values:
 
 ## `external_packs`
 
-Use this for packs such as Superpowers where the preferred behavior is to record the source and install method rather than vendor all files.
+Use this for externally maintained packs where the preferred behavior is to record the source and install method rather than vendor all files.
 
 ```yaml
 external_packs:
-  - id: superpowers
+  - id: external-skill-pack
     status: referenced
     source: external
-    description: Core skills library for development workflows.
+    description: Skills maintained in a separate upstream repository.
     install_note: Record source and install method instead of vendoring by default.
 ```
 

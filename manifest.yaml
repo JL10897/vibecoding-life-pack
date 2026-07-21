@@ -211,11 +211,6 @@ skills:
     source: personal
     description: "小红书多输入内容生成技能。用于将 pdf/md/txt/json 等文件转为结构化的小红书博文。默认生成论文解读（paper-interpretation）类型，输出 xhs-post..."
 external_packs:
-  - id: superpowers
-    status: referenced
-    source: external
-    description: "Core skills library for TDD, debugging, collaboration patterns, and development workflows."
-    install_note: "Record source and install method instead of vendoring by default."
   - id: anthropic-skills
     status: referenced
     source: external

@@ -11,6 +11,7 @@ agents:
     install_targets:
       skills: ~/.cursor/skills
       rules: ~/.cursor/rules
+      user_rules: "Cursor Settings > Rules > User Rules (manual paste)"
       hooks_dir: ~/.cursor/hooks
       hooks_json: ~/.cursor/hooks.json
   claude-code:
@@ -19,12 +20,14 @@ agents:
       skills: ~/.claude/skills
       commands: ~/.claude/commands
       settings: ~/.claude/settings
+      global_principles: ~/.claude/rules/agent-principles.md
   codex:
     canonical_path: canonical/codex
     install_targets:
       skills: ~/.codex/skills
       prompts: ~/.codex/prompts
       settings: ~/.codex/settings
+      global_principles: ~/.codex/AGENTS.md
 
 shared:
   canonical_path: canonical/shared
@@ -34,6 +37,13 @@ shared:
     - debugging
     - review
   skills_path: canonical/shared/skills
+  principles:
+    source: canonical/shared/principles/AgentPrinciples.md
+    install_targets:
+      codex: ~/.codex/AGENTS.md
+      claude-code: ~/.claude/rules/agent-principles.md
+      cursor: "Cursor Settings > Rules > User Rules"
+    cursor_export: bin/vibe-print-cursor-user-rules
   skills:
     - id: plan-revise
       status: active

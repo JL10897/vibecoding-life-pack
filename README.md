@@ -33,6 +33,27 @@ manifest.yaml                   Machine-readable inventory.
 
 Use `canonical/` for anything that should travel across machines. Use `devices/<device-id>/` only when a setting or skill really belongs to one machine.
 
+## Shared agent principles
+
+`canonical/shared/principles/AgentPrinciples.md` is the single source of truth for personal rules that should load in every coding-agent session.
+
+Running `./install.sh` links it into:
+
+```text
+~/.codex/AGENTS.md
+~/.claude/rules/agent-principles.md
+```
+
+Codex and Claude Code load those files for every project. Project instructions can still add more specific rules.
+
+Cursor global User Rules are managed in the application rather than by a supported repository file. Print the same source text with:
+
+```bash
+bin/vibe-print-cursor-user-rules
+```
+
+Paste the output into **Cursor Settings > Rules > User Rules**. Repeat this manual step after changing `AgentPrinciples.md`. Project-specific Cursor rules remain under `.cursor/rules/` with `alwaysApply: true` when they should apply to every task in that project.
+
 ## Skills: shared vs platform-only
 
 A skill is a directory containing a `SKILL.md` with YAML frontmatter (`name`, `description`) followed by markdown. The format is the same for all three agents, so one file works everywhere unless a skill truly needs platform-specific fields.

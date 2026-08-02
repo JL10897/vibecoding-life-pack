@@ -127,6 +127,39 @@ install_shared_skills() {
   done
 }
 
+install_shared_principles() {
+  local source_path="$REPO_ROOT/canonical/shared/principles/AgentPrinciples.md"
+  [[ -f "$source_path" ]] || return 0
+
+  local codex_target claude_rules_target claude_legacy_target
+  codex_target="$(expand_target "~/.codex/AGENTS.md")"
+  claude_rules_target="$(expand_target "~/.claude/rules/agent-principles.md")"
+  claude_legacy_target="$(expand_target "~/.claude/CLAUDE.md")"
+
+  install_one "$source_path" "$codex_target"
+
+  # Older life-pack setups copied the shared template into CLAUDE.md. Move
+  # only that recognizable template aside so Claude does not load duplicate or
+  # obsolete rules. Leave any other user-authored CLAUDE.md untouched.
+  if [[ -f "$claude_legacy_target" && ! -L "$claude_legacy_target" ]] \
+    && grep -q '^# CLAUDE.md — 12-rule template$' "$claude_legacy_target" \
+    && grep -q '^## Rule 6 — Token budgets are not advisory$' "$claude_legacy_target"; then
+    backup_existing "$claude_legacy_target"
+    echo "install.sh: migrated legacy $claude_legacy_target"
+  fi
+
+  install_one "$source_path" "$claude_rules_target"
+
+  local codex_override
+  codex_override="$(expand_target "~/.codex/AGENTS.override.md")"
+  if [[ -s "$codex_override" ]]; then
+    echo "install.sh: warning: $codex_override takes precedence over $codex_target" >&2
+  fi
+
+  echo "install.sh: Cursor global User Rules require a one-time manual paste"
+  echo "install.sh: run bin/vibe-print-cursor-user-rules and paste into Cursor Settings > Rules > User Rules"
+}
+
 install_agent_tree() {
   local root="$1"
 
@@ -145,6 +178,7 @@ install_agent_tree() {
 
 echo "install.sh: installing canonical content in $MODE mode"
 install_shared_skills
+install_shared_principles
 install_agent_tree "$REPO_ROOT/canonical"
 
 if [[ -d "$REPO_ROOT/devices/$DEVICE_ID" ]]; then
